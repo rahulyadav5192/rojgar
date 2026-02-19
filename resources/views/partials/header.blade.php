@@ -4,7 +4,7 @@
         <nav class="navbar navbar-expand-lg bg-inverse fixed-top scrolling-navbar">
             <div class="container">
                 <!-- Brand and toggle get grouped for better mobile display -->
-                <a href="{{ url("/") }}" class="navbar-brand" style="padding: 10px 16px;"><img src="{{ asset("logo.png") }}" alt="" style="max-height: 44px; width: auto; object-fit: contain; padding: 4px 0;"></a>
+                <a href="{{ url("/") }}" class="navbar-brand"><img src="{{ asset("logo.png") }}" alt=""></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
             <i class="lni-menu"></i>
           </button>
@@ -16,7 +16,7 @@
                 </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/about') }}">
+                            <a class="nav-link" href="#about">
                   About
                 </a>
                         </li>
@@ -31,13 +31,8 @@
                 </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#gallery">
+                            <a class="nav-link" href="{{ route('gallery') }}">
                   Gallery
-                </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#pricing">
-                  pricing
                 </a>
                         </li>
                         <li class="nav-item">
@@ -56,68 +51,47 @@
         </nav>
         <!-- Navbar End -->
 
-        <!-- Hero Section (DevConf-style) -->
-        <div id="hero-area" class="hero-modern">
-            <div class="hero-modern__bg">
-                <div class="hero-modern__overlay hero-modern__overlay--dark"></div>
-                <div class="hero-modern__overlay hero-modern__overlay--primary"></div>
-                <img class="hero-modern__img" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_cQ9eL7xWgL8yoz10xe3zZHtDvdbhkbuMZzt7K3fT0Sp--BQgnzfBE113CFS88mbsXQmo56BAT9W4wqdzU-oH_43RazoHBqOv1OiUA9HxFx02ZvwKXlirGy5Z3ZgF4gm4dkPgF1NeDGol4WdN6P6PQELdjp0FTGERG35A4vnHnnuQXJIVVwjxlvByEiKM6K3kf5NCFdtrzn5BRDOXysJFh6o28lIi770qv-nhMqFmfcThCZU3JmP4nSUCCpOeqGHGCX1wssxuQn4" alt="Tech audience"/>
-            </div>
-            <div class="hero-modern__content">
-                <div class="container">
-                    <div class="row align-items-center">
-                        <div class="col-lg-7 col-md-12 hero-modern__left">
-                            <div class="hero-modern__pills">
-                                <span class="hero-modern__pill"><i class="lni-calendar"></i> Oct 15, 2020</span>
-                                {{-- <span class="hero-modern__pill"><i class="lni-map-marker"></i> Maria Hall, NY</span> --}}
-                            </div>
-                            <h1 class="hero-modern__title">
-                                <span class="hero-modern__title-line">Developers</span>
-                                <span class="hero-modern__title-line hero-modern__title-line--accent">Conference</span>
-                            </h1>
-                            <p class="hero-modern__desc">
-                                Join over 2,500 innovators for a premier day of high-performance engineering. Dive into deep-tech workshops, network with industry leaders, and shape the future of software development.
-                            </p>
-                            <div class="hero-modern__actions">
-                                <a href="#" class="btn hero-modern__btn hero-modern__btn--primary">Get Ticket <i class="lni-arrow-right"></i></a>
-                                <a href="#schedules" class="btn hero-modern__btn hero-modern__btn--outline">View Schedule</a>
-                            </div>
-                        </div>
-                        <div class="col-lg-5 col-md-12 hero-modern__right">
-                            <div class="hero-modern__card">
-                                <div class="hero-modern__card-glow hero-modern__card-glow--1"></div>
-                                <div class="hero-modern__card-glow hero-modern__card-glow--2"></div>
-                                <h3 class="hero-modern__card-title">Event Starts In</h3>
-                                <div class="hero-modern__countdown">
-                                    <div class="hero-modern__countdown-item">
-                                        <span class="hero-modern__countdown-num" id="hero-days">0</span>
-                                        <span class="hero-modern__countdown-label">Days</span>
-                                    </div>
-                                    <div class="hero-modern__countdown-item">
-                                        <span class="hero-modern__countdown-num" id="hero-hours">00</span>
-                                        <span class="hero-modern__countdown-label">Hours</span>
-                                    </div>
-                                    <div class="hero-modern__countdown-item">
-                                        <span class="hero-modern__countdown-num hero-modern__countdown-num--accent" id="hero-minutes">00</span>
-                                        <span class="hero-modern__countdown-label">Minutes</span>
-                                    </div>
-                                    <div class="hero-modern__countdown-item hero-modern__countdown-item--highlight">
-                                        <span class="hero-modern__countdown-num" id="hero-seconds">00</span>
-                                        <span class="hero-modern__countdown-label">Seconds</span>
-                                    </div>
+        <!-- Hero Area: Two Event Cards over background image (latest 2 featured events) -->
+        <div id="hero-area" class="hero-cards-section" style="background-image: url('{{ asset('assets/img/hero-area.jpg') }}');">
+            <div class="hero-cards-section__overlay"></div>
+            <div class="hero-cards-section__inner">
+                <div class="row justify-content-center">
+                    @forelse($featuredEvents ?? [] as $index => $event)
+                        <div class="col-auto col-lg-5 col-md-6 col-10 mb-3 mb-lg-0">
+                            <div class="event-card event-card--hero wow fadeInUp" data-wow-delay="{{ 0.2 + $index * 0.1 }}s">
+                                <div class="event-card__img">
+                                    <img src="{{ $event->image ? asset('storage/'.$event->image) : asset('event.jpg') }}" alt="{{ $event->title }}">
                                 </div>
-                                <div class="hero-modern__card-footer">
-                                    <div class="hero-modern__avatars">
-                                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuC2fsur8_cG0l68TUi9rRYgEurGZur2DmTmF2HUwyMj20aNgbz_CMLZNe9y_zwQrLbC51f6Jk70RWk_W4-dGYiwlHM7LYZyCdAbZgv6OFXNWMhbZZD3PXO0zS2mgIV0jpMd-3fZC8nv3sgp8_CPBaPXFIyIG3M5UBH6d0x6x8VKnli0HRKslEH7awZkhePF8T4sMccBDjZ5j25pwmHwIRgN8-hFamHZjd7pNVNPrlAayTNVt8Z9csfRR533ntx0R4fjpAR-TfK6Ogw" alt="Speaker" class="hero-modern__avatar"/>
-                                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdTHZGLh50W1F6W09LzF-KAhoyr5NC4FtM5fmWL3ngwBXAtdGFCM-CpuGYiqmD7okP7ykDgcAPn-o-v2cdBMAiNTo1eWKxAyDZFpulRVLqUr47i00-z63Y1IdzAAFyYQdm-Z-dv-iIXgdRfxkcsITZy4_ciRnUEWBPSayL6VyqxEEVExahBZ95DHmIe91OCu_hIrpXy-qw9hYEH_oAiDszbpwWg4jcG_0UHuBqjzlvlG0W1PX3gOezZhf3Mq31LbwGB-2XsXpiVYA" alt="Speaker" class="hero-modern__avatar"/>
-                                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHyDqzkW-F4Bg4IRS9pvjJLw2zpumffGx0NVM1xy7aq9TT1ILzuQUWpHb23NuSqQLYlK9iNwDk8BvV-yDnxo7Yg-U9YYKjEart9aXtLmT0YOTf4lvKHyJC0N0SGsAk7YID7Y7mq4XX-L8nSieIjnwJWC_tYeeuvkViodm060yXgG7tS-Aw7GpRM1IGqozPDbooxU0q_A35Prk2IsQda5yYIUUJM0GL860OWD2IgA8SA9KuMyV1SbdUdCv9xDreEgla0ax9YZAAZK8" alt="Speaker" class="hero-modern__avatar"/>
-                                        <span class="hero-modern__avatar hero-modern__avatar--more">+40</span>
-                                    </div>
-                                    <p class="hero-modern__card-caption">World-class speakers attending</p>
+                                <div class="event-card__body">
+                                    <h3 class="event-card__title">{{ $event->title }}</h3>
+                                    <p class="event-card__desc">{{ Str::limit($event->description, 120) ?: 'Register for this job fair. Submit your CV and meet employers.' }}</p>
+                                    <ul class="event-card__meta">
+                                        <li><i class="lni-calendar"></i> {{ $event->start_date->format('d M Y') }}{{ $event->timing ? ', ' . $event->timing : '' }}</li>
+                                        @if($event->location)
+                                            <li><i class="lni-map-marker"></i> {{ $event->location }}</li>
+                                        @endif
+                                    </ul>
+                                    <a href="#schedules" class="btn btn-common event-card__btn">Register Now</a>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    @empty
+                        <div class="col-auto col-lg-5 col-md-6 col-10 mb-3 mb-lg-0">
+                            <div class="event-card event-card--hero wow fadeInUp" data-wow-delay="0.2s">
+                                <div class="event-card__img">
+                                    <img src="{{ asset('event.jpg') }}" alt="Event">
+                                </div>
+                                <div class="event-card__body">
+                                    <h3 class="event-card__title">Upcoming Job Fair</h3>
+                                    <p class="event-card__desc">Register for job fairs near you. Submit your CV and meet employers. Free entry for all job seekers.</p>
+                                    <ul class="event-card__meta">
+                                        <li><i class="lni-calendar"></i> Check below for dates</li>
+                                    </ul>
+                                    <a href="#schedules" class="btn btn-common event-card__btn">View Events</a>
+                                </div>
+                            </div>
+                        </div>
+                    @endforelse
                 </div>
             </div>
         </div>

@@ -119,16 +119,16 @@
 }
 
 .hero-modern__btn--primary {
-    background: #394BDE;
+    background: #FD612E;
     color: #fff !important;
     border: none;
-    box-shadow: 0 0 30px rgba(57, 75, 222, 0.4);
+    box-shadow: 0 0 30px rgba(253, 97, 46, 0.4);
 }
 
 .hero-modern__btn--primary:hover {
     color: #fff !important;
     transform: scale(1.02);
-    box-shadow: 0 0 40px rgba(57, 75, 222, 0.5);
+    box-shadow: 0 0 40px rgba(253, 97, 46, 0.5);
 }
 
 .hero-modern__btn--outline {
@@ -222,8 +222,8 @@
 }
 
 .hero-modern__countdown-item--highlight {
-    background: rgba(57, 75, 222, 0.15);
-    border-color: rgba(57, 75, 222, 0.25);
+    background: rgba(253, 97, 46, 0.15);
+    border-color: rgba(253, 97, 46, 0.25);
 }
 
 .hero-modern__countdown-num {
@@ -240,7 +240,7 @@
 }
 
 .hero-modern__countdown-num--accent {
-    color: #394BDE;
+    color: #FFCD80;
 }
 
 .hero-modern__countdown-label {

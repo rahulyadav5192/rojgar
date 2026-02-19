@@ -24,9 +24,6 @@
                             <a class="nav-link" href="{{ url('/') }}#gallery">Gallery</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/') }}#pricing">Pricing</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" href="{{ url('/') }}#sponsors">Sponsors</a>
                         </li>
                         <li class="nav-item">

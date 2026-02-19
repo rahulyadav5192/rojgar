@@ -12,7 +12,7 @@
                         </form>
                     </div>
                     <div class="footer-logo" style="padding: 12px 0;">
-                        <img src="{{ asset("logo.png") }}" alt="" style="max-height: 36px; width: auto; object-fit: contain; padding: 8px 0;">
+                        <img src="{{ asset("logo.png") }}" alt="" style="max-height: 44px; width: auto; object-fit: contain; padding: 8px 0;">
                     </div>
                     <div class="social-icons-footer">
                         <ul>
@@ -20,9 +20,6 @@
                             <li class="twitter"><a target="_blank" href="3"><i class="lni-twitter-filled"></i></a></li>
                             <li class="pinterest"><a target="_blank" href="3"><i class="lni-pinterest"></i></a></li>
                         </ul>
-                    </div>
-                    <div class="site-info">
-                        <p>Designed and Developed by <a href="http://uideck.com" rel="nofollow">UIdeck</a></p>
                     </div>
                 </div>
             </div>
