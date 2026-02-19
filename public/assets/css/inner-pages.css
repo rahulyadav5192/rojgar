@@ -1,0 +1,26 @@
+/* Inner pages: navbar only (no hero), always visible */
+.header-inner .navbar-inner {
+    background: #fff !important;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    padding: 0.5rem 0;
+}
+.header-inner .navbar-inner .nav-link {
+    color: #212121 !important;
+    font-size: 14px;
+    padding: 0.5rem 1rem;
+}
+.header-inner .navbar-inner .nav-link:hover,
+.header-inner .navbar-inner .nav-item.active .nav-link {
+    color: #394BDE !important;
+}
+.header-inner .navbar-inner .navbar-toggler {
+    border-color: rgba(0, 0, 0, 0.2);
+    color: #212121;
+}
+.header-inner .navbar-inner .navbar-toggler .lni-menu {
+    font-size: 1.5rem;
+    color: #212121;
+}
+.header-inner-spacer {
+    height: 70px;
+}

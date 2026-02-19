@@ -31,7 +31,7 @@
         <nav class="navbar navbar-expand-lg bg-inverse fixed-top scrolling-navbar">
             <div class="container">
                 <!-- Brand and toggle get grouped for better mobile display -->
-                <a href="{{ url("/") }}" class="navbar-brand"><img src="{{ asset("assets/img/logo.png") }}" alt=""></a>
+                <a href="{{ url("/") }}" class="navbar-brand"><img src="{{ asset("logo.png") }}" alt=""></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
             <i class="lni-menu"></i>
           </button>
@@ -1477,7 +1477,7 @@
                         </form>
                     </div>
                     <div class="footer-logo">
-                        <img src="{{ asset("assets/img/logo.png") }}" alt="">
+                        <img src="{{ asset("logo.png") }}" alt="">
                     </div>
                     <div class="social-icons-footer">
                         <ul>

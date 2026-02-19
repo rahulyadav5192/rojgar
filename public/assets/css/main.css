@@ -595,7 +595,8 @@ a.back-to-top:focus {
 }
 
 .navbar-brand img {
-    width: 75%;
+    width: 53%;
+    padding: 15px;
 }
 
 .top-nav-collapse {

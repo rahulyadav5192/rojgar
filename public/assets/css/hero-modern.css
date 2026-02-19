@@ -1,0 +1,304 @@
+/* Hero Section - DevConf-style (uses theme primary #394BDE) */
+.hero-modern {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding-top: 80px;
+}
+
+.hero-modern__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.hero-modern__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1.05);
+}
+
+.hero-modern__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+
+.hero-modern__overlay--dark {
+    background: linear-gradient(to bottom, rgba(10, 5, 16, 0.85) 0%, rgba(10, 5, 16, 0.6) 50%, rgba(10, 5, 16, 0.9) 100%);
+}
+
+.hero-modern__overlay--primary {
+    background: linear-gradient(to right, rgba(57, 75, 222, 0.25) 0%, transparent 100%);
+}
+
+.hero-modern__content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    padding: 3rem 0 4rem;
+}
+
+.hero-modern__left {
+    padding-right: 2rem;
+}
+
+.hero-modern__pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.hero-modern__pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.35rem 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #1a1a1a;
+    background: #FFCD800;
+    border: 1px solid rgba(255, 205, 128, 0.6);
+    border-radius: 9999px;
+}
+
+.hero-modern__pill i {
+    font-size: 0.9rem;
+}
+
+.hero-modern__title {
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+    font-style: italic;
+    margin-bottom: 1.25rem;
+    color: #fff;
+}
+
+.hero-modern__title-line {
+    display: block;
+}
+
+.hero-modern__title-line--accent {
+    color: #394BDE;
+}
+
+.hero-modern__desc {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.75);
+    max-width: 32rem;
+    margin-bottom: 1.5rem;
+}
+
+.hero-modern__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding-top: 0.5rem;
+}
+
+.hero-modern__btn {
+    padding: 0.9rem 1.75rem;
+    font-size: 1rem;
+    font-weight: 700;
+    border-radius: 0.75rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.hero-modern__btn--primary {
+    background: #394BDE;
+    color: #fff !important;
+    border: none;
+    box-shadow: 0 0 30px rgba(57, 75, 222, 0.4);
+}
+
+.hero-modern__btn--primary:hover {
+    color: #fff !important;
+    transform: scale(1.02);
+    box-shadow: 0 0 40px rgba(57, 75, 222, 0.5);
+}
+
+.hero-modern__btn--outline {
+    background: transparent;
+    color: #fff !important;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.hero-modern__btn--outline:hover {
+    color: #fff !important;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* Right: glass countdown card */
+.hero-modern__right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+}
+
+@media (min-width: 992px) {
+    .hero-modern__right {
+        justify-content: flex-end;
+        margin-top: 0;
+    }
+}
+
+.hero-modern__card {
+    position: relative;
+    width: 100%;
+    max-width: 22rem;
+    padding: 2rem 2.25rem;
+    background: rgba(25, 16, 34, 0.55);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(57, 75, 222, 0.2);
+    border-radius: 1.5rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+}
+
+.hero-modern__card-glow {
+    position: absolute;
+    border-radius: 50%;
+    z-index: -1;
+    filter: blur(80px);
+    opacity: 0.6;
+}
+
+.hero-modern__card-glow--1 {
+    width: 10rem;
+    height: 10rem;
+    background: rgba(57, 75, 222, 0.35);
+    top: -2.5rem;
+    right: -2.5rem;
+}
+
+.hero-modern__card-glow--2 {
+    width: 10rem;
+    height: 10rem;
+    background: rgba(57, 75, 222, 0.2);
+    bottom: -2.5rem;
+    left: -2.5rem;
+}
+
+.hero-modern__card-title {
+    text-align: center;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #394BDE;
+    margin-bottom: 1.5rem;
+}
+
+.hero-modern__countdown {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+}
+
+.hero-modern__countdown-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.25rem 0.75rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1rem;
+}
+
+.hero-modern__countdown-item--highlight {
+    background: rgba(57, 75, 222, 0.15);
+    border-color: rgba(57, 75, 222, 0.25);
+}
+
+.hero-modern__countdown-num {
+    font-size: 2.25rem;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1;
+}
+
+@media (min-width: 768px) {
+    .hero-modern__countdown-num {
+        font-size: 2.75rem;
+    }
+}
+
+.hero-modern__countdown-num--accent {
+    color: #394BDE;
+}
+
+.hero-modern__countdown-label {
+    font-size: 0.6rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.5);
+    margin-top: 0.5rem;
+}
+
+.hero-modern__countdown-item--highlight .hero-modern__countdown-label {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.hero-modern__card-footer {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.hero-modern__avatars {
+    display: flex;
+    align-items: center;
+}
+
+.hero-modern__avatar {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #191022;
+    margin-left: -0.75rem;
+}
+
+.hero-modern__avatar:first-child {
+    margin-left: 0;
+}
+
+.hero-modern__avatar--more {
+    margin-left: -0.75rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #394BDE;
+    color: #fff;
+    font-size: 0.6rem;
+    font-weight: 700;
+}
+
+.hero-modern__card-caption {
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.55);
+    margin: 0;
+}
