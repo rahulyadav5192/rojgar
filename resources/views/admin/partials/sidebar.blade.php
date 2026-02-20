@@ -67,15 +67,25 @@
             <div class="text-truncate" data-i18n="Speakers">Speakers</div>
           </a>
         </li>
+        <li class="menu-item {{ request()->routeIs('admin.content.footer.*') ? 'active' : '' }}">
+          <a href="{{ route('admin.content.footer.edit') }}" class="menu-link">
+            <div class="text-truncate" data-i18n="Footer">Footer</div>
+          </a>
+        </li>
+        <li class="menu-item {{ request()->routeIs('admin.content.sponsors.*') ? 'active' : '' }}">
+          <a href="{{ route('admin.content.sponsors.index') }}" class="menu-link">
+            <div class="text-truncate" data-i18n="Sponsors">Sponsors</div>
+          </a>
+        </li>
       </ul>
     </li>
-    <li class="menu-item">
+    <!-- <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link">
         <i class="menu-icon tf-icons bx bx-user"></i>
         <div class="text-truncate" data-i18n="Users">Users</div>
       </a>
-    </li>
-    <li class="menu-item">
+    </li> -->
+    <!-- <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-cog"></i>
         <div class="text-truncate" data-i18n="Settings">Settings</div>
@@ -92,7 +102,7 @@
           </a>
         </li>
       </ul>
-    </li>
+    </li> -->
     <li class="menu-header small text-uppercase"><span class="menu-header-text">Account</span></li>
     <li class="menu-item">
       <a href="{{ route('admin.logout') }}" class="menu-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

@@ -6,10 +6,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>EventUp - Event and Conference Template</title>
+    <title>Rozgaar Mahakumbh</title>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" type="text/css" href="{{ asset("assets/css/bootstrap.min.css") }}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Icon -->
     <link rel="stylesheet" type="text/css" href="{{ asset("assets/fonts/line-icons.css") }}">
     <!-- Nivo Lightbox -->
@@ -20,6 +22,24 @@
     <link rel="stylesheet" type="text/css" href="{{ asset("assets/css/main.css") }}">
     <!-- Responsive Style -->
     <link rel="stylesheet" type="text/css" href="{{ asset("assets/css/responsive.css") }}">
+
+    @include('partials.meta-pixel')
+    <style>
+        /* Standard Bootstrap 4 Modal Styling */
+        .modal-backdrop {
+            background-color: #000;
+        }
+        
+        body.modal-open {
+            overflow: hidden;
+        }
+        /* Force modal to be interactive and fully visible */
+        .modal,
+        .modal-content {
+            pointer-events: auto !important;
+            opacity: 1 !important;
+        }
+    </style>
 
 </head>
 
@@ -57,6 +77,9 @@
                             </ul>
                                 @endif
                             <!-- <a class="btn btn-common" href="#">Learn More</a> -->
+                            @if(isset($upcomingEvents) && count($upcomingEvents) > 0)
+                                <a href="{{ route('event.register', ['event' => $upcomingEvents[0]->id]) }}" class="btn btn-common mt-3">Register</a>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -222,6 +245,11 @@
                         <div class="event-card wow fadeInUp" data-wow-delay="{{ 0.2 + $index * 0.1 }}s">
                             <div class="event-card__img">
                                 <img src="{{ $event->image ? asset('storage/'.$event->image) : asset('event.jpg') }}" alt="{{ $event->title }}">
+                                @if($event->type === 'International')
+                                    <span class="badge bg-primary" style="position: absolute; top: 10px; left: 10px; font-size: 12px;">International</span>
+                                @else
+                                    <span class="badge bg-success" style="position: absolute; top: 10px; left: 10px; font-size: 12px;">Domestic</span>
+                                @endif
                             </div>
                             <div class="event-card__body">
                                 <h3 class="event-card__title">{{ $event->title }}</h3>
@@ -232,9 +260,11 @@
                                         <li><i class="lni-map-marker"></i> {{ $event->location }}</li>
                                     @endif
                                 </ul>
-                                <a href="#schedules" class="btn btn-common event-card__btn">Register Now</a>
+                                <a href="{{ route('event.register', ['event' => $event->id]) }}" class="btn btn-common">Register Now</a>
                             </div>
                         </div>
+                        <!-- Registration Modal for this event -->
+                        <!-- Modal removed: registration now handled on a separate page -->
                     </div>
                 @empty
                     <div class="col-12 text-center py-5">
@@ -253,7 +283,7 @@
                 <div class="col-12">
                     <div class="section-title-header text-center">
                         <h2 class="section-title wow fadeInUp" data-wow-delay="0.2s">Our Speakers</h2>
-                        <p class="wow fadeInDown" data-wow-delay="0.2s">Lorem ipsum dolor sit amet, in quodsi vulputate pro. Ius illum vocent mediocritatem an <br> cule dicta iriure at phaedrum.</p>
+                        <p class="wow fadeInDown" data-wow-delay="0.2s">Meet industry leaders, career coaches, and HR experts sharing actionable insights on hiring trends, interview preparation, and career advancement.</p>
                     </div>
                 </div>
             </div>
@@ -282,7 +312,7 @@
                 </div>
                 @endforeach
             </div>
-            <a href="#" class="btn btn-common mt-30 wow fadeInUp" data-wow-delay="1.9s">Meet all speakers</a>
+            <!-- <a href="#" class="btn btn-common mt-30 wow fadeInUp" data-wow-delay="1.9s">Meet all speakers</a> -->
         </div>
     </section>
     <!-- Team Section End -->
@@ -294,7 +324,7 @@
                 <div class="col-12">
                     <div class="section-title-header text-center">
                         <h2 class="section-title wow fadeInUp" data-wow-delay="0.2s">Event Gallery</h2>
-                        <p class="wow fadeInDown" data-wow-delay="0.2s">Lorem ipsum dolor sit amet, in quodsi vulputate pro. Ius illum vocent mediocritatem an <br> cule dicta iriure at phaedrum.</p>
+                        <p class="wow fadeInDown" data-wow-delay="0.2s">Browse highlights from past Rozgaar Mahakumbh events — workshops, success stories, and memorable moments captured for your inspiration.</p>
                     </div>
                 </div>
             </div>
@@ -320,7 +350,7 @@
             </div>
             <div class="row justify-content-center mt-3">
                 <div class="col-xs-12">
-                    <a href="{{ route('gallery') }}" class="btn btn-common">Browse All</a>
+                    <!-- <a href="{{ route('gallery') }}" class="btn btn-common">Browse All</a> -->
                 </div>
             </div>
         </div>
@@ -334,7 +364,7 @@
                 <div class="col-12">
                     <div class="section-title-header text-center">
                         <h2 class="section-title wow fadeInUp" data-wow-delay="0.2s">Upcoming Events</h2>
-                        <p class="wow fadeInDown" data-wow-delay="0.2s">Lorem ipsum dolor sit amet, in quodsi vulputate pro. Ius illum vocent mediocritatem an <br> cule dicta iriure at phaedrum.</p>
+                        <p class="wow fadeInDown" data-wow-delay="0.2s">Read announcements, speaker spotlights, and practical career resources to help you prepare for the event and advance your job search.</p>
                     </div>
                 </div>
             </div>
@@ -400,7 +430,7 @@
                 <div class="col-12">
                     <div class="section-title-header text-center">
                         <h2 class="section-title wow fadeInUp" data-wow-delay="0.2s">Latest News</h2>
-                        <p class="wow fadeInDown" data-wow-delay="0.2s">Lorem ipsum dolor sit amet, in quodsi vulputate pro. Ius illum vocent mediocritatem an <br> cule dicta iriure at phaedrum.</p>
+                        <p class="wow fadeInDown" data-wow-delay="0.2s">Our partners and sponsors support skills development and create direct hiring pathways — thank you to all organizations collaborating with us.</p>
                     </div>
                 </div>
             </div>
@@ -434,7 +464,7 @@
                 </div>
                 @endforelse
                 <div class="col-12 text-center">
-                    <a href="#" class="btn btn-common">View all Blog</a>
+                    <!-- <a href="#" class="btn btn-common">View all Blog</a> -->
                 </div>
             </div>
         </div>
@@ -449,22 +479,20 @@
                 <div class="col-12">
                     <div class="section-title-header text-center">
                         <h2 class="section-title wow fadeInUp" data-wow-delay="0.2s">Sponsors</h2>
-                        <p class="wow fadeInDown" data-wow-delay="0.2s">Lorem ipsum dolor sit amet, in quodsi vulputate pro. Ius illum vocent mediocritatem an <br> cule dicta iriure at phaedrum.</p>
+                        <p class="wow fadeInDown" data-wow-delay="0.2s">Questions about participating, sponsoring, or media inquiries? Contact our team and we'll guide you through registration, partnership, and logistics.</p>
                     </div>
                 </div>
             </div>
             <div class="row mb-30 text-center wow fadeInDown" data-wow-delay="0.3s">
                 <div class="col-lg-12">
                     <div class="sponsors-logo text-center">
-                        <a href=""><img src="{{ asset("assets/img/sponsors/logo-1.png") }}" alt=""></a>
-                        <a href=""><img src="{{ asset("assets/img/sponsors/logo-2.png") }}" alt=""></a>
-                        <a href=""><img src="{{ asset("assets/img/sponsors/logo-3.png") }}" alt=""></a>
-                        <a href=""><img src="{{ asset("assets/img/sponsors/logo-4.png") }}" alt=""></a>
-                        <a href=""><img src="{{ asset("assets/img/sponsors/logo-5.png") }}" alt=""></a>
-                        <a href=""><img src="{{ asset("assets/img/sponsors/logo-6.png") }}" alt=""></a>
-                        <a href=""><img src="{{ asset("assets/img/sponsors/logo-7.png") }}" alt=""></a>
-                        <a href=""><img src="{{ asset("assets/img/sponsors/logo-8.png") }}" alt=""></a>
-                        <a href=""><img src="{{ asset("assets/img/sponsors/logo-9.png") }}" alt=""></a>
+                        @forelse($sponsors ?? [] as $sponsor)
+                            <a href="{{ $sponsor->link ?: '#' }}" target="_blank"><img src="{{ asset('storage/'.$sponsor->image) }}" alt="Sponsor" style="max-height:60px;margin:10px;object-fit:contain;background:#fff;padding:8px" /></a>
+                        @empty
+                            <a href=""><img src="{{ asset("assets/img/sponsors/logo-1.png") }}" alt=""></a>
+                            <a href=""><img src="{{ asset("assets/img/sponsors/logo-2.png") }}" alt=""></a>
+                            <a href=""><img src="{{ asset("assets/img/sponsors/logo-3.png") }}" alt=""></a>
+                        @endforelse
                     </div>
                     <!-- sponsors logo end-->
                 </div>
@@ -480,7 +508,7 @@
                 <div class="col-12">
                     <div class="section-title-header text-center">
                         <h2 class="section-title wow fadeInUp" data-wow-delay="0.2s">Contact Us</h2>
-                        <p class="wow fadeInDown" data-wow-delay="0.2s">Lorem ipsum dolor sit amet, in quodsi vulputate pro. Ius illum vocent mediocritatem an <br> cule dicta iriure at phaedrum.</p>
+                        <p class="wow fadeInDown" data-wow-delay="0.2s">Questions about participating, sponsoring, or media inquiries? Contact our team and we'll guide you through registration, partnership opportunities, and logistics.</p>
                     </div>
                 </div>
             </div>
@@ -488,11 +516,15 @@
                 <div class="col-lg-8 col-md-12 col-xs-12">
                     <div class="container-form wow fadeInLeft" data-wow-delay="0.2s">
                         <div class="form-wrapper">
-                            <form role="form" method="post" id="contactForm" name="contact-form" data-toggle="validator">
+                            @if(session('contact_success'))
+                                <div class="alert alert-success">{{ session('contact_success') }}</div>
+                            @endif
+                            <form role="form" action="{{ route('contact.submit') }}" method="post" id="contactForm" name="contact-form" data-toggle="validator">
+                                @csrf
                                 <div class="row">
                                     <div class="col-md-6 form-line">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" id="name" name="email" placeholder="First Name" required data-error="Please enter your name">
+                                            <input type="text" class="form-control" id="name" name="name" placeholder="Full Name" required data-error="Please enter your name">
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>
@@ -543,29 +575,36 @@
     <section id="contact-text">
         <div class="container">
             <div class="row contact-wrapper">
+                {{-- Footer content is provided by HomeController as $footer --}}
                 <div class="col-lg-4 col-md-5 col-xs-12">
-                    <ul>
-                        <li>
-                            <i class="lni-home"></i>
-                        </li>
-                        <li><span>Cesare Rosaroll, 118 80139 Eventine</li>
-            </ul>
-          </div>
-          <div class="col-lg-4 col-md-3 col-xs-12">
-            <ul>
-              <li>
-                <i class="lni-phone"></i>
-              </li>
-              <li><span>+789 123 456 79</span></li>
-                    </ul>
+                    @if($footer && $footer->address)
+                        <ul>
+                            <li>
+                                <i class="lni-home"></i>
+                            </li>
+                            <li><span>{{ $footer->address }}</span></li>
+                        </ul>
+                    @endif
                 </div>
                 <div class="col-lg-4 col-md-3 col-xs-12">
+                    @if($footer && $footer->phone)
+                    <ul>
+                      <li>
+                        <i class="lni-phone"></i>
+                      </li>
+                      <li><span>{{ $footer->phone }}</span></li>
+                    </ul>
+                    @endif
+                </div>
+                <div class="col-lg-4 col-md-3 col-xs-12">
+                    @if($footer && $footer->email)
                     <ul>
                         <li>
                             <i class="lni-envelope"></i>
                         </li>
-                        <li><span><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="f4a78184849b8680b4918c9599849891da979b99">[email&#160;protected]</a></span></li>
+                        <li><span><a href="mailto:{{ $footer->email }}">{{ $footer->email }}</a></span></li>
                     </ul>
+                    @endif
                 </div>
             </div>
         </div>
@@ -612,6 +651,7 @@
     <script src="{{ asset("assets/js/form-validator.min.js") }}"></script>
     <script src="{{ asset("assets/js/contact-form-script.min.js") }}"></script>
 
+    <!-- Modal trigger script removed: Register buttons now redirect to registration page -->
     
 </body>
 

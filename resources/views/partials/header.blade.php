@@ -71,9 +71,11 @@
                                             <li><i class="lni-map-marker"></i> {{ $event->location }}</li>
                                         @endif
                                     </ul>
-                                    <a href="#schedules" class="btn btn-common event-card__btn">Register Now</a>
+                                    <a href="{{ route('event.register', ['event' => $event->id]) }}" class="btn btn-common">Register Now</a>
                                 </div>
                             </div>
+                            <!-- Registration Modal -->
+                            <x-event-registration-modal :event="$event" />
                         </div>
                     @empty
                         <div class="col-auto col-lg-5 col-md-6 col-10 mb-3 mb-lg-0">

@@ -8,13 +8,20 @@ use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\GalleryController;
 use App\Http\Controllers\Admin\BlogController as AdminBlogController;
 use App\Http\Controllers\Admin\SpeakerController;
+use App\Http\Controllers\Admin\FooterContentController;
+use App\Http\Controllers\Admin\SponsorController;
 use App\Http\Controllers\Admin\WhySectionController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\EventRegistrationController;
 use App\Models\GalleryImage;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index']);
+
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.submit');
+Route::post('/event-registration', [EventRegistrationController::class, 'store'])->name('event-registration.store');
 
 // Admin routes (Sneat template)
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -34,6 +41,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('events', EventController::class)->except('show');
         Route::resource('blogs', AdminBlogController::class)->except('show');
         Route::get('gallery', [GalleryController::class, 'index'])->name('gallery.index');
+        Route::get('blog/{slug}', [\App\Http\Controllers\BlogController::class, 'show'])->name('blog.show');
         Route::post('gallery', [GalleryController::class, 'store'])->name('gallery.store');
         Route::delete('gallery/{gallery_image}', [GalleryController::class, 'destroy'])->name('gallery.destroy');
 
@@ -47,7 +55,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::put('why', [WhySectionController::class, 'update'])->name('why.update');
             Route::get('counter', [CounterContentController::class, 'edit'])->name('counter.edit');
             Route::put('counter', [CounterContentController::class, 'update'])->name('counter.update');
+            Route::get('footer', [FooterContentController::class, 'edit'])->name('footer.edit');
+            Route::put('footer', [FooterContentController::class, 'update'])->name('footer.update');
             Route::resource('speakers', SpeakerController::class)->except('show');
+            Route::resource('sponsors', SponsorController::class)->except('show');
         });
     });
 });
@@ -56,3 +67,9 @@ Route::get('/gallery', function () {
     $images = GalleryImage::orderBy('created_at', 'desc')->get();
     return view('gallery', compact('images'));
 })->name('gallery');
+
+// Registration page for event
+Route::get('/register/{event}', function ($eventId) {
+    $event = \App\Models\Event::findOrFail($eventId);
+    return view('register', compact('event'));
+})->name('event.register');

@@ -9,6 +9,8 @@ use App\Models\Event;
 use App\Models\GalleryImage;
 use App\Models\Blog;
 use App\Models\Speaker;
+use App\Models\Sponsor;
+use App\Models\FooterContent;
 use App\Models\WhySection;
 use Illuminate\View\View;
 
@@ -39,10 +41,12 @@ class HomeController extends Controller
         $whySection = WhySection::first();
         $counterContent = CounterContent::first();
         $speakers = Speaker::orderBy('sort_order')->orderBy('id')->get();
+        $sponsors = Sponsor::orderBy('id')->get();
+        $footer = FooterContent::first();
 
         return view('home', compact(
             'featuredEvents', 'upcomingEvents', 'galleryImages', 'latestBlogs',
-            'aboutContent', 'conferenceContent', 'whySection', 'counterContent', 'speakers'
+            'aboutContent', 'conferenceContent', 'whySection', 'counterContent', 'speakers', 'sponsors', 'footer'
         ));
     }
 }

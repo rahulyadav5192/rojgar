@@ -24,9 +24,11 @@ class GalleryController extends Controller
             'caption' => 'nullable|string|max:255',
         ]);
 
-        $path = $request->file('image')->store('gallery', 'public');
+        $image = $request->file('image');
+        $filename = uniqid('gallery_') . '.' . $image->getClientOriginalExtension();
+        $image->move(public_path('uploads'), $filename);
         GalleryImage::create([
-            'image' => $path,
+            'image' => 'uploads/' . $filename,
             'caption' => $request->input('caption'),
         ]);
 
@@ -35,7 +37,9 @@ class GalleryController extends Controller
 
     public function destroy(GalleryImage $gallery_image): RedirectResponse
     {
-        Storage::disk('public')->delete($gallery_image->image);
+        if ($gallery_image->image && file_exists(public_path($gallery_image->image))) {
+            unlink(public_path($gallery_image->image));
+        }
         $gallery_image->delete();
         return redirect()->route('admin.gallery.index')->with('success', 'Image deleted successfully.');
     }

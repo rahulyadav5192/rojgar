@@ -36,7 +36,10 @@ class BlogController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('blogs', 'public');
+            $image = $request->file('image');
+            $filename = uniqid('blog_') . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('uploads'), $filename);
+            $data['image'] = 'uploads/' . $filename;
         }
 
         if ($data['status'] === Blog::STATUS_PUBLISHED) {
@@ -64,10 +67,13 @@ class BlogController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            if ($blog->image) {
-                Storage::disk('public')->delete($blog->image);
+            if ($blog->image && file_exists(public_path($blog->image))) {
+                unlink(public_path($blog->image));
             }
-            $data['image'] = $request->file('image')->store('blogs', 'public');
+            $image = $request->file('image');
+            $filename = uniqid('blog_') . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('uploads'), $filename);
+            $data['image'] = 'uploads/' . $filename;
         } else {
             unset($data['image']);
         }
@@ -83,8 +89,8 @@ class BlogController extends Controller
 
     public function destroy(Blog $blog): RedirectResponse
     {
-        if ($blog->image) {
-            Storage::disk('public')->delete($blog->image);
+        if ($blog->image && file_exists(public_path($blog->image))) {
+            unlink(public_path($blog->image));
         }
 
         $blog->delete();

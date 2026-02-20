@@ -10,6 +10,7 @@ class Event extends Model
         'title',
         'description',
         'location',
+        'type',
         'image',
         'start_date',
         'end_date',
@@ -34,6 +35,14 @@ class Event extends Model
             'draft' => 'Draft',
             'published' => 'Published',
             'cancelled' => 'Cancelled',
+        ];
+    }
+
+    public static function typeOptions(): array
+    {
+        return [
+            'Domestic' => 'Domestic',
+            'International' => 'International',
         ];
     }
 

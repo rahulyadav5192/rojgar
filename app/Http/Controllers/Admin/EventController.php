@@ -70,11 +70,13 @@ class EventController extends Controller
             'start_date' => 'required|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
             'timing' => 'nullable|string|max:100',
+            'type' => 'required|in:Domestic,International',
             'status' => 'required|in:draft,published,cancelled',
             'who_can_apply' => 'required|in:all,man,woman',
             'featured' => 'sometimes|boolean',
         ];
         $data = $request->validate($rules);
+        $data['type'] = $request->input('type');
         $data['featured'] = $request->boolean('featured');
         return $data;
     }

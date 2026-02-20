@@ -44,6 +44,15 @@
           </div>
 
           <div class="mb-4">
+            <label class="form-label" for="type">Type</label>
+            <select class="form-select @error('type') is-invalid @enderror" id="type" name="type" required>
+              @foreach(\App\Models\Event::typeOptions() as $value => $label)
+                <option value="{{ $value }}" {{ old('type', $event->type ?? 'Domestic') === $value ? 'selected' : '' }}>{{ $label }}</option>
+              @endforeach
+            </select>
+          </div>
+
+          <div class="mb-4">
             <label class="form-label" for="image">Image</label>
             <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image" accept="image/jpeg,image/png,image/jpg,image/gif,image/webp" />
             @if($event->exists && $event->image)
