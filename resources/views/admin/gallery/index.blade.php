@@ -52,7 +52,7 @@
       @forelse($images as $image)
         <div class="col-sm-6 col-md-4 col-lg-3">
           <div class="card border h-100">
-            <img src="{{ asset('storage/'.$image->image) }}" class="card-img-top" alt="{{ $image->caption ?? 'Gallery' }}" style="height:180px;object-fit:cover" />
+            <img src="{{ \Illuminate\Support\Str::startsWith($image->image, ['uploads/', 'assets/']) ? asset($image->image) : asset('storage/'.$image->image) }}" class="card-img-top" alt="{{ $image->caption ?? 'Gallery' }}" style="height:180px;object-fit:cover" />
             <div class="card-body py-3">
               @if($image->caption)
                 <p class="card-text small text-body-secondary mb-2">{{ Str::limit($image->caption, 40) }}</p>

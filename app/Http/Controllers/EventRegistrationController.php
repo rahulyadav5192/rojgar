@@ -41,15 +41,15 @@ class EventRegistrationController extends Controller
             'event_id' => 'required|exists:events,id',
             'full_name' => 'required|string|max:255',
             'gender' => 'required|in:Male,Female,Other',
-            'aadhaar_number' => 'nullable|string|max:20',
+            'aadhaar_number' => 'required|string|max:20',
             'phone_number' => 'required|string|max:20',
             'email_address' => 'required|email|max:255',
-            'college_university' => 'nullable|string|max:255',
-            'qualification' => 'nullable|string|max:255',
+            'college_university' => 'required|string|max:255',
+            'qualification' => 'required|string|max:255',
             'referred_by' => 'nullable|string|max:255',
             'has_certifications' => 'sometimes|boolean',
             'certifications_detail' => 'nullable|string',
-            'resume' => 'nullable|file|mimes:pdf,doc,docx|max:5120',
+            'resume' => 'required|file|max:5120|mimes:pdf,jpg,jpeg,png,webp|mimetypes:application/pdf,image/jpeg,image/png,image/webp',
         ];
 
         if ($event->type === 'International') {

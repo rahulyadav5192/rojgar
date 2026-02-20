@@ -49,7 +49,7 @@
             <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image" accept="image/jpeg,image/png,image/jpg,image/gif,image/webp" />
             @if($blog->exists && $blog->image)
               <div class="mt-2">
-                <img src="{{ asset('storage/'.$blog->image) }}" alt="" class="rounded" style="max-height:140px" />
+                <img src="{{ \Illuminate\Support\Str::startsWith($blog->image, ['uploads/', 'assets/']) ? asset($blog->image) : asset('storage/'.$blog->image) }}" alt="" class="rounded" style="max-height:140px" />
                 <small class="text-body-secondary d-block">Current image. Upload a new one to replace.</small>
               </div>
             @endif

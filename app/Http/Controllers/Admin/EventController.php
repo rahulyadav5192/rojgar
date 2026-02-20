@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Event;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class EventController extends Controller
@@ -42,9 +42,7 @@ class EventController extends Controller
         $data = $this->validateEvent($request, $event);
         unset($data['image']);
         if ($request->hasFile('image')) {
-            if ($event->image) {
-                Storage::disk('public')->delete($event->image);
-            }
+            $this->deleteImage($event->image);
             $data['image'] = $this->uploadImage($request->file('image'));
         }
         $event->update($data);
@@ -53,9 +51,7 @@ class EventController extends Controller
 
     public function destroy(Event $event): RedirectResponse
     {
-        if ($event->image) {
-            Storage::disk('public')->delete($event->image);
-        }
+        $this->deleteImage($event->image);
         $event->delete();
         return redirect()->route('admin.events.index')->with('success', 'Event deleted successfully.');
     }
@@ -81,11 +77,37 @@ class EventController extends Controller
         return $data;
     }
 
-    private function uploadImage($file): ?string
+    private function uploadImage(?UploadedFile $file): ?string
     {
         if (! $file) {
             return null;
         }
-        return $file->store('events', 'public');
+
+        $directory = public_path('uploads/events');
+        if (! is_dir($directory)) {
+            mkdir($directory, 0755, true);
+        }
+
+        $filename = uniqid('event_').'.'.$file->getClientOriginalExtension();
+        $file->move($directory, $filename);
+
+        return 'uploads/events/'.$filename;
+    }
+
+    private function deleteImage(?string $path): void
+    {
+        if (! $path) {
+            return;
+        }
+
+        $publicPath = public_path($path);
+        if (file_exists($publicPath)) {
+            unlink($publicPath);
+        }
+
+        $legacyStoragePath = storage_path('app/public/'.$path);
+        if (file_exists($legacyStoragePath)) {
+            unlink($legacyStoragePath);
+        }
     }
 }

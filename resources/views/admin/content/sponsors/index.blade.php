@@ -52,7 +52,7 @@
       @forelse($sponsors as $sponsor)
         <div class="col-sm-6 col-md-4 col-lg-3">
           <div class="card border h-100">
-            <img src="{{ asset('storage/'.$sponsor->image) }}" class="card-img-top" alt="Sponsor" style="height:120px;object-fit:contain;background:#fff;padding:10px" />
+            <img src="{{ \Illuminate\Support\Str::startsWith($sponsor->image, ['uploads/', 'assets/']) ? asset($sponsor->image) : asset('storage/'.$sponsor->image) }}" class="card-img-top" alt="Sponsor" style="height:120px;object-fit:contain;background:#fff;padding:10px" />
             <div class="card-body py-3">
               @if($sponsor->link)
                 <p class="card-text small text-body-secondary mb-2"><a href="{{ $sponsor->link }}" target="_blank">Visit partner</a></p>

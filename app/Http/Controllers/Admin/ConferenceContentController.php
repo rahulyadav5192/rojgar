@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ConferenceContent;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\UploadedFile;
 use Illuminate\View\View;
 
 class ConferenceContentController extends Controller
@@ -29,12 +29,44 @@ class ConferenceContentController extends Controller
         ]);
         $data = $request->only('location', 'date_time', 'speakers_text', 'seats_text');
         if ($request->hasFile('image')) {
-            if ($conference->image) {
-                Storage::disk('public')->delete($conference->image);
-            }
-            $data['image'] = $request->file('image')->store('conference', 'public');
+            $this->deleteImage($conference->image);
+            $data['image'] = $this->uploadImage($request->file('image'));
         }
         $conference->update($data);
         return redirect()->route('admin.content.conference.edit')->with('success', 'Conference content updated.');
+    }
+
+    private function uploadImage(?UploadedFile $file): ?string
+    {
+        if (! $file) {
+            return null;
+        }
+
+        $directory = public_path('uploads/conference');
+        if (! is_dir($directory)) {
+            mkdir($directory, 0755, true);
+        }
+
+        $filename = uniqid('conference_').'.'.$file->getClientOriginalExtension();
+        $file->move($directory, $filename);
+
+        return 'uploads/conference/'.$filename;
+    }
+
+    private function deleteImage(?string $path): void
+    {
+        if (! $path) {
+            return;
+        }
+
+        $publicPath = public_path($path);
+        if (file_exists($publicPath)) {
+            unlink($publicPath);
+        }
+
+        $legacyStoragePath = storage_path('app/public/'.$path);
+        if (file_exists($legacyStoragePath)) {
+            unlink($legacyStoragePath);
+        }
     }
 }

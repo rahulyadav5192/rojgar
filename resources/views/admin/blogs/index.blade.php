@@ -32,7 +32,7 @@
           <tr>
             <td>
               @if($blog->image)
-                <img src="{{ asset('storage/'.$blog->image) }}" alt="" class="rounded" style="width:48px;height:48px;object-fit:cover" />
+                <img src="{{ \Illuminate\Support\Str::startsWith($blog->image, ['uploads/', 'assets/']) ? asset($blog->image) : asset('storage/'.$blog->image) }}" alt="" class="rounded" style="width:48px;height:48px;object-fit:cover" />
               @else
                 <span class="avatar avatar-sm rounded bg-label-secondary d-inline-flex align-items-center justify-content-center">
                   <i class="icon-base bx bx-news"></i>

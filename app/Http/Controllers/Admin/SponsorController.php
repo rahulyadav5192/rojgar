@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Sponsor;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\UploadedFile;
 use Illuminate\View\View;
 
 class SponsorController extends Controller
@@ -24,7 +24,7 @@ class SponsorController extends Controller
             'link' => 'nullable|url|max:255',
         ]);
 
-        $path = $request->file('image')->store('sponsors', 'public');
+        $path = $this->uploadImage($request->file('image'));
         Sponsor::create([
             'image' => $path,
             'link' => $request->input('link'),
@@ -35,8 +35,42 @@ class SponsorController extends Controller
 
     public function destroy(Sponsor $sponsor): RedirectResponse
     {
-        Storage::disk('public')->delete($sponsor->image);
+        $this->deleteImage($sponsor->image);
         $sponsor->delete();
         return redirect()->route('admin.content.sponsors.index')->with('success', 'Sponsor removed successfully.');
+    }
+
+    private function uploadImage(?UploadedFile $file): ?string
+    {
+        if (! $file) {
+            return null;
+        }
+
+        $directory = public_path('uploads/sponsors');
+        if (! is_dir($directory)) {
+            mkdir($directory, 0755, true);
+        }
+
+        $filename = uniqid('sponsor_').'.'.$file->getClientOriginalExtension();
+        $file->move($directory, $filename);
+
+        return 'uploads/sponsors/'.$filename;
+    }
+
+    private function deleteImage(?string $path): void
+    {
+        if (! $path) {
+            return;
+        }
+
+        $publicPath = public_path($path);
+        if (file_exists($publicPath)) {
+            unlink($publicPath);
+        }
+
+        $legacyStoragePath = storage_path('app/public/'.$path);
+        if (file_exists($legacyStoragePath)) {
+            unlink($legacyStoragePath);
+        }
     }
 }

@@ -19,6 +19,7 @@ use App\Models\GalleryImage;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index']);
+Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('blog.show');
 
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.submit');
 Route::post('/event-registration', [EventRegistrationController::class, 'store'])->name('event-registration.store');

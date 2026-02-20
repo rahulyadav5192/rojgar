@@ -36,7 +36,7 @@
           <tr>
             <td>
               @if($event->image)
-                <img src="{{ asset('storage/'.$event->image) }}" alt="" class="rounded" style="width:48px;height:48px;object-fit:cover" />
+                <img src="{{ \Illuminate\Support\Str::startsWith($event->image, ['uploads/', 'assets/']) ? asset($event->image) : asset('storage/'.$event->image) }}" alt="" class="rounded" style="width:48px;height:48px;object-fit:cover" />
               @else
                 <span class="avatar avatar-sm rounded bg-label-secondary d-inline-flex align-items-center justify-content-center">
                   <i class="icon-base bx bx-calendar"></i>

@@ -40,7 +40,7 @@
             <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image" accept="image/jpeg,image/png,image/jpg,image/gif,image/webp" />
             @if($speaker->exists && $speaker->image)
               <div class="mt-2">
-                <img src="{{ asset('storage/'.$speaker->image) }}" alt="" class="rounded" style="max-height:120px" />
+                <img src="{{ \Illuminate\Support\Str::startsWith($speaker->image, ['uploads/', 'assets/']) ? asset($speaker->image) : asset('storage/'.$speaker->image) }}" alt="" class="rounded" style="max-height:120px" />
                 <small class="text-body-secondary d-block">Current image. Upload a new one to replace.</small>
               </div>
             @endif

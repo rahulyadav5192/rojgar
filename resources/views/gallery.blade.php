@@ -29,10 +29,10 @@
                     <div class="col-md-6 col-sm-6 col-lg-3 mb-4">
                         <div class="gallery-box">
                             <div class="img-thumb">
-                                <img class="img-fluid" src="{{ asset('storage/'.$image->image) }}" alt="{{ $image->caption ?? 'Gallery' }}">
+                                <img class="img-fluid" src="{{ \Illuminate\Support\Str::startsWith($image->image, ['uploads/', 'assets/']) ? asset($image->image) : asset('storage/'.$image->image) }}" alt="{{ $image->caption ?? 'Gallery' }}">
                             </div>
                             <div class="overlay-box text-center">
-                                <a class="lightbox" href="{{ asset('storage/'.$image->image) }}" title="{{ $image->caption ?? '' }}">
+                                <a class="lightbox" href="{{ \Illuminate\Support\Str::startsWith($image->image, ['uploads/', 'assets/']) ? asset($image->image) : asset('storage/'.$image->image) }}" title="{{ $image->caption ?? '' }}">
                                     <i class="lni-plus"></i>
                                 </a>
                             </div>

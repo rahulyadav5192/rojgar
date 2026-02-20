@@ -31,7 +31,7 @@
           <tr>
             <td>
               @if($speaker->image)
-                <img src="{{ asset('storage/'.$speaker->image) }}" alt="" class="rounded" style="width:48px;height:48px;object-fit:cover" />
+                <img src="{{ \Illuminate\Support\Str::startsWith($speaker->image, ['uploads/', 'assets/']) ? asset($speaker->image) : asset('storage/'.$speaker->image) }}" alt="" class="rounded" style="width:48px;height:48px;object-fit:cover" />
               @else
                 <span class="avatar avatar-sm rounded bg-label-secondary d-inline-flex align-items-center justify-content-center">
                   <i class="bx bx-user"></i>

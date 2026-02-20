@@ -57,7 +57,7 @@
             <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image" accept="image/jpeg,image/png,image/jpg,image/gif,image/webp" />
             @if($event->exists && $event->image)
               <div class="mt-2">
-                <img src="{{ asset('storage/'.$event->image) }}" alt="" class="rounded" style="max-height:120px" />
+                <img src="{{ \Illuminate\Support\Str::startsWith($event->image, ['uploads/', 'assets/']) ? asset($event->image) : asset('storage/'.$event->image) }}" alt="" class="rounded" style="max-height:120px" />
                 <small class="text-body-secondary d-block">Current image. Upload a new one to replace.</small>
               </div>
             @endif

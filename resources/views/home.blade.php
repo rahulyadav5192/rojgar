@@ -90,7 +90,7 @@
 
     <!-- Event Image Section -->
     <div class="ready-to-play">
-        <img src="{{ $conferenceContent && $conferenceContent->image ? asset('storage/'.$conferenceContent->image) : asset('event.jpg') }}" alt="Event" class="ready-to-play__img">
+        <img src="{{ $conferenceContent && $conferenceContent->image ? (\Illuminate\Support\Str::startsWith($conferenceContent->image, ['uploads/', 'assets/']) ? asset($conferenceContent->image) : asset('storage/'.$conferenceContent->image)) : asset('event.jpg') }}" alt="Event" class="ready-to-play__img">
     </div>
 
     <!-- Information Bar Start -->
@@ -244,7 +244,7 @@
                     <div class="col-lg-4 col-md-6 col-12 mb-4">
                         <div class="event-card wow fadeInUp" data-wow-delay="{{ 0.2 + $index * 0.1 }}s">
                             <div class="event-card__img">
-                                <img src="{{ $event->image ? asset('storage/'.$event->image) : asset('event.jpg') }}" alt="{{ $event->title }}">
+                                <img src="{{ $event->image ? (\Illuminate\Support\Str::startsWith($event->image, ['uploads/', 'assets/']) ? asset($event->image) : asset('storage/'.$event->image)) : asset('event.jpg') }}" alt="{{ $event->title }}">
                                 @if($event->type === 'International')
                                     <span class="badge bg-primary" style="position: absolute; top: 10px; left: 10px; font-size: 12px;">International</span>
                                 @else
@@ -292,7 +292,7 @@
                 <div class="col-lg-3 col-md-6 col-xs-12">
                     <div class="team-item wow fadeInUp" data-wow-delay="{{ 0.2 + $index * 0.2 }}s">
                         <div class="team-img">
-                            <img class="img-fluid" src="{{ $speaker->image ? asset('storage/'.$speaker->image) : asset('assets/img/team/team-01.jpg') }}" alt="{{ $speaker->name }}">
+                            <img class="img-fluid" src="{{ $speaker->image ? (\Illuminate\Support\Str::startsWith($speaker->image, ['uploads/', 'assets/']) ? asset($speaker->image) : asset('storage/'.$speaker->image)) : asset('assets/img/team/team-01.jpg') }}" alt="{{ $speaker->name }}">
                             <div class="team-overlay">
                                 <div class="overlay-social-icon text-center">
                                     <ul class="social-icons">
@@ -333,10 +333,10 @@
                     <div class="col-md-6 col-sm-6 col-lg-3">
                         <div class="gallery-box">
                             <div class="img-thumb">
-                                <img class="img-fluid" src="{{ asset('storage/'.$image->image) }}" alt="{{ $image->caption ?? 'Gallery' }}">
+                                <img class="img-fluid" src="{{ \Illuminate\Support\Str::startsWith($image->image, ['uploads/', 'assets/']) ? asset($image->image) : asset('storage/'.$image->image) }}" alt="{{ $image->caption ?? 'Gallery' }}">
                             </div>
                             <div class="overlay-box text-center">
-                                <a class="lightbox" href="{{ asset('storage/'.$image->image) }}" title="{{ $image->caption ?? '' }}">
+                                <a class="lightbox" href="{{ \Illuminate\Support\Str::startsWith($image->image, ['uploads/', 'assets/']) ? asset($image->image) : asset('storage/'.$image->image) }}" title="{{ $image->caption ?? '' }}">
                                     <i class="lni-plus"></i>
                                 </a>
                             </div>
@@ -439,8 +439,8 @@
                 <div class="col-lg-4 col-md-6 col-xs-12">
                     <div class="blog-item">
                         <div class="blog-image">
-                            <a href="{{ url('/blog/'.$blog->slug) }}">
-                                <img class="img-fluid" src="{{ $blog->image ? asset('storage/'.$blog->image) : asset('assets/img/blog/img-1.jpg') }}" alt="{{ $blog->title }}">
+                            <a href="{{ route('blog.show', $blog->slug) }}">
+                                <img class="img-fluid" src="{{ $blog->image ? (Str::startsWith($blog->image, ['uploads/', 'assets/']) ? asset($blog->image) : asset('storage/'.$blog->image)) : asset('assets/img/blog/img-1.jpg') }}" alt="{{ $blog->title }}">
                             </a>
                         </div>
                         <div class="descr">
@@ -448,13 +448,13 @@
                                 <i class="lni-image"></i>
                             </div>
                             <h3 class="title">
-                                <a href="{{ url('/blog/'.$blog->slug) }}">{{ $blog->title }}</a>
+                                <a href="{{ route('blog.show', $blog->slug) }}">{{ $blog->title }}</a>
                             </h3>
                             <p>{{ $blog->excerpt ?: Str::limit(strip_tags($blog->body), 120) }}</p>
                         </div>
                         <div class="meta-tags">
                             <span class="date"><i class="lni-calendar"></i> {{ $blog->published_at ? $blog->published_at->format('M d, Y') : $blog->created_at->format('M d, Y') }}</span>
-                            <span class="comments"><i class="lni-comment-alt"></i> <a href="{{ url('/blog/'.$blog->slug) }}">Read more</a></span>
+                            <span class="comments"><i class="lni-comment-alt"></i> <a href="{{ route('blog.show', $blog->slug) }}">Read more</a></span>
                         </div>
                     </div>
                 </div>
@@ -487,7 +487,7 @@
                 <div class="col-lg-12">
                     <div class="sponsors-logo text-center">
                         @forelse($sponsors ?? [] as $sponsor)
-                            <a href="{{ $sponsor->link ?: '#' }}" target="_blank"><img src="{{ asset('storage/'.$sponsor->image) }}" alt="Sponsor" style="max-height:60px;margin:10px;object-fit:contain;background:#fff;padding:8px" /></a>
+                            <a href="{{ $sponsor->link ?: '#' }}" target="_blank"><img src="{{ \Illuminate\Support\Str::startsWith($sponsor->image, ['uploads/', 'assets/']) ? asset($sponsor->image) : asset('storage/'.$sponsor->image) }}" alt="Sponsor" style="max-height:60px;margin:10px;object-fit:contain;background:#fff;padding:8px" /></a>
                         @empty
                             <a href=""><img src="{{ asset("assets/img/sponsors/logo-1.png") }}" alt=""></a>
                             <a href=""><img src="{{ asset("assets/img/sponsors/logo-2.png") }}" alt=""></a>
