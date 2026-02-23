@@ -11,7 +11,7 @@
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <ul class="navbar-nav mr-auto w-100 justify-content-end">
                         <li class="nav-item active">
-                            <a class="nav-link" href="#header-wrap">
+                            <a class="nav-link" href="{{ url('/') }}">
                   Home
                 </a>
                         </li>
@@ -21,13 +21,23 @@
                 </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#schedules">
-                  schedules
+                            <a class="nav-link" href="#gallery">
+                  Flashback
                 </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#team">
-                  Speakers
+                            <a class="nav-link" href="#schedules">
+                  Upcoming
+                </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#blog">
+                  Guide
+                </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#schedules">
+                  Register
                 </a>
                         </li>
                         <li class="nav-item">
@@ -36,12 +46,7 @@
                 </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#sponsors">
-                  Sponsors
-                </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#google-map-area">
+                            <a class="nav-link" href="#contact-map">
                   Contact
                 </a>
                         </li>
@@ -52,13 +57,25 @@
         <!-- Navbar End -->
 
         <!-- Hero Area: Two Event Cards over background image (latest 2 featured events) -->
-        <div id="hero-area" class="hero-cards-section" style="background-image: url('{{ asset('assets/img/hero-area.jpg') }}');">
+        @php
+            $heroBannerImage = (isset($bannerContent) && $bannerContent && $bannerContent->image)
+                ? (\Illuminate\Support\Str::startsWith($bannerContent->image, ['uploads/', 'assets/']) ? asset($bannerContent->image) : asset('storage/'.$bannerContent->image))
+                : asset('assets/img/hero-area.jpg');
+            $heroBannerImageMobile = null;
+            if (isset($bannerContent) && $bannerContent && !empty($bannerContent->mobile_image)) {
+                $heroBannerImageMobile = \Illuminate\Support\Str::startsWith($bannerContent->mobile_image, ['uploads/', 'assets/'])
+                    ? asset($bannerContent->mobile_image)
+                    : asset('storage/'.$bannerContent->mobile_image);
+            }
+        @endphp
+        <div id="hero-area" class="hero-cards-section" style="background-image: url('{{ $heroBannerImage }}');@if($heroBannerImageMobile) --hero-mobile-bg: url('{{ $heroBannerImageMobile }}'); @endif">
             <div class="hero-cards-section__overlay"></div>
             <div class="hero-cards-section__inner">
                 <div class="row justify-content-center">
                     @forelse($featuredEvents ?? [] as $index => $event)
-                        <div class="col-auto col-lg-5 col-md-6 col-10 mb-3 mb-lg-0">
+                        <div class="col-auto col-lg-5 col-md-6 col-10 mb-3 mb-lg-0 hero-event-card-wrapper">
                             <div class="event-card event-card--hero wow fadeInUp" data-wow-delay="{{ 0.2 + $index * 0.1 }}s">
+                                <button type="button" class="hero-event-card__close" aria-label="Close card"><i class="fa fa-times" aria-hidden="true"></i></button>
                                 <div class="event-card__img">
                                     <img src="{{ $event->image ? (\Illuminate\Support\Str::startsWith($event->image, ['uploads/', 'assets/']) ? asset($event->image) : asset('storage/'.$event->image)) : asset('event.jpg') }}" alt="{{ $event->title }}">
                                 </div>
@@ -78,8 +95,9 @@
                             <x-event-registration-modal :event="$event" />
                         </div>
                     @empty
-                        <div class="col-auto col-lg-5 col-md-6 col-10 mb-3 mb-lg-0">
+                        <div class="col-auto col-lg-5 col-md-6 col-10 mb-3 mb-lg-0 hero-event-card-wrapper">
                             <div class="event-card event-card--hero wow fadeInUp" data-wow-delay="0.2s">
+                                <button type="button" class="hero-event-card__close" aria-label="Close card"><i class="fa fa-times" aria-hidden="true"></i></button>
                                 <div class="event-card__img">
                                     <img src="{{ asset('event.jpg') }}" alt="Event">
                                 </div>
@@ -101,3 +119,14 @@
 
     </header>
     <!-- Header Area wrapper End -->
+
+    <script>
+    (function() {
+        document.querySelectorAll('.hero-event-card__close').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var wrapper = this.closest('.hero-event-card-wrapper');
+                if (wrapper) wrapper.style.display = 'none';
+            });
+        });
+    })();
+    </script>

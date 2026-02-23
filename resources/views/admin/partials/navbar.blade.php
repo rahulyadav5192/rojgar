@@ -35,6 +35,15 @@
           </li>
           <li><div class="dropdown-divider my-1"></div></li>
           <li>
+            <form action="{{ route('admin.cache.clear') }}" method="POST">
+              @csrf
+              <button type="submit" class="dropdown-item">
+                <i class="icon-base bx bx-refresh icon-md me-3"></i><span>Clear Cache</span>
+              </button>
+            </form>
+          </li>
+          <li><div class="dropdown-divider my-1"></div></li>
+          <li>
             <a class="dropdown-item" href="{{ route('admin.logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
               <i class="icon-base bx bx-power-off icon-md me-3"></i><span>Log Out</span>
             </a>

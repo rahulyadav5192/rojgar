@@ -4,12 +4,14 @@
                 <div class="col-lg-8 col-md-12 col-xs-12">
                     <div class="subscribe-inner wow fadeInDown" data-wow-delay="0.3s">
                         <h2 class="subscribe-title">Stay Informed</h2>
-                        <form class="text-center form-inline">
-                            <input class="mb-20 form-control" name="email" placeholder="Enter Your Email Here">
-                            <button type="submit" class="btn btn-common sub-btn" data-style="zoom-in" data-spinner-size="30" name="submit" id="submit">
+                        <form class="text-center form-inline" id="subscribeForm" action="{{ route('subscribe.store') }}" method="post">
+                            @csrf
+                            <input class="mb-20 form-control" type="email" name="email" id="subscribeEmail" placeholder="Enter Your Email Here" required>
+                            <button type="submit" class="btn btn-common sub-btn" data-style="zoom-in" data-spinner-size="30" name="submit" id="subscribeSubmit">
                   <span class="ladda-label"><i class="lni-check-box"></i> Subscribe</span>
                 </button>
                         </form>
+                        <small id="subscribeMessage" class="d-block mt-2 text-center" style="min-height: 20px;"></small>
                     </div>
                     <div class="footer-logo" style="padding: 12px 0;">
                         <img src="{{ asset("logo.png") }}" alt="" style="max-height: 44px; width: auto; object-fit: contain; padding: 8px 0;">
@@ -42,3 +44,57 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        (function () {
+            const form = document.getElementById('subscribeForm');
+            if (!form) {
+                return;
+            }
+
+            const emailInput = document.getElementById('subscribeEmail');
+            const submitButton = document.getElementById('subscribeSubmit');
+            const messageBox = document.getElementById('subscribeMessage');
+
+            form.addEventListener('submit', async function (event) {
+                event.preventDefault();
+
+                if (!emailInput || !messageBox || !submitButton) {
+                    return;
+                }
+
+                messageBox.textContent = '';
+                messageBox.className = 'd-block mt-2 text-center';
+                submitButton.disabled = true;
+
+                try {
+                    const formData = new FormData(form);
+                    const response = await fetch(form.action, {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json'
+                        },
+                        body: formData
+                    });
+
+                    const payload = await response.json();
+                    const status = payload.status || 'success';
+
+                    messageBox.textContent = payload.message || 'Subscription request completed.';
+                    if (status === 'success') {
+                        messageBox.classList.add('text-success');
+                        form.reset();
+                    } else if (status === 'info') {
+                        messageBox.classList.add('text-warning');
+                    } else {
+                        messageBox.classList.add('text-danger');
+                    }
+                } catch (error) {
+                    messageBox.textContent = 'Unable to subscribe right now. Please try again.';
+                    messageBox.classList.add('text-danger');
+                } finally {
+                    submitButton.disabled = false;
+                }
+            });
+        })();
+    </script>

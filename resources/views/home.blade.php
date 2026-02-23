@@ -5,6 +5,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
 
     <title>Rozgaar Mahakumbh</title>
 
@@ -53,7 +54,12 @@
             <div class="row">
                 <div class="col-lg-6 col-md-12 col-xs-12">
                     <div class="img-thumb">
-                        <img class="img-fluid" src="{{ asset("assets/img/about/img1.png") }}" alt="">
+                        @php
+                            $aboutImage = (isset($aboutContent) && $aboutContent && $aboutContent->image)
+                                ? (\Illuminate\Support\Str::startsWith($aboutContent->image, ['uploads/', 'assets/']) ? asset($aboutContent->image) : asset('storage/'.$aboutContent->image))
+                                : asset('assets/img/about/img1.png');
+                        @endphp
+                        <img class="img-fluid" src="{{ $aboutImage }}" alt="">
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-12 col-xs-12">
@@ -77,9 +83,9 @@
                             </ul>
                                 @endif
                             <!-- <a class="btn btn-common" href="#">Learn More</a> -->
-                            @if(isset($upcomingEvents) && count($upcomingEvents) > 0)
+                            <!-- @if(isset($upcomingEvents) && count($upcomingEvents) > 0)
                                 <a href="{{ route('event.register', ['event' => $upcomingEvents[0]->id]) }}" class="btn btn-common mt-3">Register</a>
-                            @endif
+                            @endif -->
                         </div>
                     </div>
                 </div>
@@ -245,11 +251,6 @@
                         <div class="event-card wow fadeInUp" data-wow-delay="{{ 0.2 + $index * 0.1 }}s">
                             <div class="event-card__img">
                                 <img src="{{ $event->image ? (\Illuminate\Support\Str::startsWith($event->image, ['uploads/', 'assets/']) ? asset($event->image) : asset('storage/'.$event->image)) : asset('event.jpg') }}" alt="{{ $event->title }}">
-                                @if($event->type === 'International')
-                                    <span class="badge bg-primary" style="position: absolute; top: 10px; left: 10px; font-size: 12px;">International</span>
-                                @else
-                                    <span class="badge bg-success" style="position: absolute; top: 10px; left: 10px; font-size: 12px;">Domestic</span>
-                                @endif
                             </div>
                             <div class="event-card__body">
                                 <h3 class="event-card__title">{{ $event->title }}</h3>
@@ -487,11 +488,11 @@
                 <div class="col-lg-12">
                     <div class="sponsors-logo text-center">
                         @forelse($sponsors ?? [] as $sponsor)
-                            <a href="{{ $sponsor->link ?: '#' }}" target="_blank"><img src="{{ \Illuminate\Support\Str::startsWith($sponsor->image, ['uploads/', 'assets/']) ? asset($sponsor->image) : asset('storage/'.$sponsor->image) }}" alt="Sponsor" style="max-height:60px;margin:10px;object-fit:contain;background:#fff;padding:8px" /></a>
+                            <a href="{{ $sponsor->link ?: '#' }}" target="_blank"><img src="{{ \Illuminate\Support\Str::startsWith($sponsor->image, ['uploads/', 'assets/']) ? asset($sponsor->image) : asset('storage/'.$sponsor->image) }}" alt="Sponsor" class="sponsor-logo-img" /></a>
                         @empty
-                            <a href=""><img src="{{ asset("assets/img/sponsors/logo-1.png") }}" alt=""></a>
-                            <a href=""><img src="{{ asset("assets/img/sponsors/logo-2.png") }}" alt=""></a>
-                            <a href=""><img src="{{ asset("assets/img/sponsors/logo-3.png") }}" alt=""></a>
+                            <a href=""><img src="{{ asset("assets/img/sponsors/logo-1.png") }}" alt="" class="sponsor-logo-img"></a>
+                            <a href=""><img src="{{ asset("assets/img/sponsors/logo-2.png") }}" alt="" class="sponsor-logo-img"></a>
+                            <a href=""><img src="{{ asset("assets/img/sponsors/logo-3.png") }}" alt="" class="sponsor-logo-img"></a>
                         @endforelse
                     </div>
                     <!-- sponsors logo end-->
@@ -564,7 +565,11 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
-                    <object style="border:0; height: 450px; width: 100%;" data="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15864.15480778837!2d-77.44908382752939!3d38.953293865566366!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x6775cb22a9fa1341!2sThe+Firkin+%26+Fox!5e0!3m2!1sen!2sbd!4v1543773685573"></object>
+                    @php
+                        $defaultMapEmbedUrl = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15864.15480778837!2d-77.44908382752939!3d38.953293865566366!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x6775cb22a9fa1341!2sThe+Firkin+%26+Fox!5e0!3m2!1sen!2sbd!4v1543773685573';
+                        $mapEmbedUrl = $footer && $footer->google_map_embed_url ? $footer->google_map_embed_url : $defaultMapEmbedUrl;
+                    @endphp
+                    <object style="border:0; height: 450px; width: 100%;" data="{{ $mapEmbedUrl }}"></object>
                 </div>
             </div>
         </div>

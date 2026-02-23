@@ -28,6 +28,11 @@
           <input type="email" name="email" class="form-control" value="{{ old('email', $footer->email) }}">
         </div>
       </div>
+      <div class="mb-3">
+        <label class="form-label">Google Map Embed URL</label>
+        <input type="url" name="google_map_embed_url" class="form-control" value="{{ old('google_map_embed_url', $footer->google_map_embed_url) }}" placeholder="https://www.google.com/maps/embed?...">
+        <small class="text-muted">Paste the Google Maps embed URL. This will update the map shown in website footer section.</small>
+      </div>
       <h6>Social Links (leave blank to hide)</h6>
       <div class="row">
         <div class="col-md-4 mb-3">

@@ -1,8 +1,9 @@
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
   <div class="app-brand demo">
     <a href="{{ route('admin.dashboard') }}" class="app-brand-link">
-      @include('admin.partials.app-brand-logo')
-      <span class="app-brand-text demo menu-text fw-bold ms-2">{{ config('app.name') }}</span>
+      <span class="app-brand-logo demo">
+        <img src="{{ asset('logo.png') }}" alt="{{ config('app.name') }}" style="max-height: 42px; width: auto; object-fit: contain;">
+      </span>
     </a>
     <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
       <i class="bx bx-chevron-left d-block d-xl-none align-middle"></i>
@@ -24,6 +25,12 @@
         <div class="text-truncate" data-i18n="Events">Events</div>
       </a>
     </li>
+    <li class="menu-item {{ request()->routeIs('admin.registrations.*') ? 'active' : '' }}">
+      <a href="{{ route('admin.registrations.index') }}" class="menu-link">
+        <i class="menu-icon tf-icons bx bx-spreadsheet"></i>
+        <div class="text-truncate" data-i18n="Registrations">Registrations</div>
+      </a>
+    </li>
     <li class="menu-item {{ request()->routeIs('admin.blogs.*') ? 'active' : '' }}">
       <a href="{{ route('admin.blogs.index') }}" class="menu-link">
         <i class="menu-icon tf-icons bx bx-news"></i>
@@ -42,6 +49,11 @@
         <div class="text-truncate" data-i18n="Content">Content</div>
       </a>
       <ul class="menu-sub">
+        <li class="menu-item {{ request()->routeIs('admin.content.banner.*') ? 'active' : '' }}">
+          <a href="{{ route('admin.content.banner.edit') }}" class="menu-link">
+            <div class="text-truncate" data-i18n="Banner">Banner</div>
+          </a>
+        </li>
         <li class="menu-item {{ request()->routeIs('admin.content.about.*') ? 'active' : '' }}">
           <a href="{{ route('admin.content.about.edit') }}" class="menu-link">
             <div class="text-truncate" data-i18n="About">About</div>
@@ -75,6 +87,24 @@
         <li class="menu-item {{ request()->routeIs('admin.content.sponsors.*') ? 'active' : '' }}">
           <a href="{{ route('admin.content.sponsors.index') }}" class="menu-link">
             <div class="text-truncate" data-i18n="Sponsors">Sponsors</div>
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li class="menu-item {{ (request()->routeIs('admin.contacts.*') || request()->routeIs('admin.subscribers.*')) ? 'active open' : '' }}">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons bx bx-message-dots"></i>
+        <div class="text-truncate" data-i18n="Enquiry">Enquiry</div>
+      </a>
+      <ul class="menu-sub">
+        <li class="menu-item {{ request()->routeIs('admin.contacts.*') ? 'active' : '' }}">
+          <a href="{{ route('admin.contacts.index') }}" class="menu-link">
+            <div class="text-truncate" data-i18n="Contact Us">Contact Us</div>
+          </a>
+        </li>
+        <li class="menu-item {{ request()->routeIs('admin.subscribers.*') ? 'active' : '' }}">
+          <a href="{{ route('admin.subscribers.index') }}" class="menu-link">
+            <div class="text-truncate" data-i18n="Subscribe">Subscribe</div>
           </a>
         </li>
       </ul>

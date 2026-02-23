@@ -11,17 +11,22 @@ use App\Http\Controllers\Admin\SpeakerController;
 use App\Http\Controllers\Admin\FooterContentController;
 use App\Http\Controllers\Admin\SponsorController;
 use App\Http\Controllers\Admin\WhySectionController;
+use App\Http\Controllers\Admin\EventRegistrationController as AdminEventRegistrationController;
+use App\Http\Controllers\Admin\ContactSubmissionController as AdminContactSubmissionController;
+use App\Http\Controllers\Admin\SubscriberController as AdminSubscriberController;
+use App\Http\Controllers\Admin\BannerContentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\EventRegistrationController;
-use App\Models\GalleryImage;
+use App\Http\Controllers\SubscribeController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('blog.show');
 
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.submit');
+Route::post('/subscribe', [SubscribeController::class, 'store'])->name('subscribe.store');
 Route::post('/event-registration', [EventRegistrationController::class, 'store'])->name('event-registration.store');
 
 // Admin routes (Sneat template)
@@ -36,10 +41,15 @@ Route::prefix('admin')->name('admin.')->group(function () {
     });
 
     Route::middleware('auth:admin')->group(function () {
-        Route::get('/', fn () => redirect()->route('admin.dashboard'));
+        Route::get('/', [AdminController::class, 'redirectToDashboard']);
         Route::get('dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+        Route::post('cache/clear', [AdminController::class, 'clearCache'])->name('cache.clear');
         Route::post('logout', [AdminController::class, 'logout'])->name('logout');
         Route::resource('events', EventController::class)->except('show');
+        Route::get('registrations/export', [AdminEventRegistrationController::class, 'export'])->name('registrations.export');
+        Route::resource('registrations', AdminEventRegistrationController::class)->only(['index', 'show', 'edit', 'update', 'destroy']);
+        Route::get('contacts', [AdminContactSubmissionController::class, 'index'])->name('contacts.index');
+        Route::get('subscribers', [AdminSubscriberController::class, 'index'])->name('subscribers.index');
         Route::resource('blogs', AdminBlogController::class)->except('show');
         Route::get('gallery', [GalleryController::class, 'index'])->name('gallery.index');
         Route::get('blog/{slug}', [\App\Http\Controllers\BlogController::class, 'show'])->name('blog.show');
@@ -48,6 +58,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         // Content (home page sections)
         Route::prefix('content')->name('content.')->group(function () {
+            Route::get('banner', [BannerContentController::class, 'edit'])->name('banner.edit');
+            Route::put('banner', [BannerContentController::class, 'update'])->name('banner.update');
             Route::get('about', [AboutContentController::class, 'edit'])->name('about.edit');
             Route::put('about', [AboutContentController::class, 'update'])->name('about.update');
             Route::get('conference', [ConferenceContentController::class, 'edit'])->name('conference.edit');
@@ -64,13 +76,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     });
 });
 
-Route::get('/gallery', function () {
-    $images = GalleryImage::orderBy('created_at', 'desc')->get();
-    return view('gallery', compact('images'));
-})->name('gallery');
+Route::get('/gallery', [HomeController::class, 'gallery'])->name('gallery');
 
 // Registration page for event
-Route::get('/register/{event}', function ($eventId) {
-    $event = \App\Models\Event::findOrFail($eventId);
-    return view('register', compact('event'));
-})->name('event.register');
+Route::get('/register/{event}', [EventRegistrationController::class, 'create'])->name('event.register');

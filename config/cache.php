@@ -19,6 +19,17 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Home Page Cache TTL (minutes)
+    |--------------------------------------------------------------------------
+    |
+    | Controls how long home page aggregated data remains cached. Update this
+    | value in .env using HOME_CACHE_TTL_MINUTES.
+    |
+    */
+    'home_ttl_minutes' => (int) env('HOME_CACHE_TTL_MINUTES', 10),
+
+    /*
+    |--------------------------------------------------------------------------
     | Cache Stores
     |--------------------------------------------------------------------------
     |

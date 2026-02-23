@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
     <title>Register - EventUp</title>
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -26,10 +27,6 @@
             background: #fff !important;
             padding: 0.5rem 0;
             box-shadow: none;
-        }
-
-        #header-wrap .navbar-brand img {
-            max-height: 32px;
         }
 
         #header-wrap .navbar-nav .nav-link {
@@ -231,6 +228,19 @@
                             <input type="hidden" name="event_id" value="{{ $event->id }}">
 
                             <section class="form-section">
+                                <h6 class="form-section-title">Process</h6>
+                                <div class="form-group">
+                                    <label>Registration Process <span class="text-danger">*</span></label>
+                                    <select class="form-control @error('process') is-invalid @enderror" name="process" id="process" required>
+                                        <option value="Domestic" {{ old('process', 'Domestic') === 'Domestic' ? 'selected' : '' }}>Domestic</option>
+                                        <option value="International" {{ old('process') === 'International' ? 'selected' : '' }}>International</option>
+                                    </select>
+                                    <small class="text-muted">Select International if you need to provide passport details.</small>
+                                    @error('process')<span class="invalid-feedback">{{ $message }}</span>@enderror
+                                </div>
+                            </section>
+
+                            <section class="form-section">
                                 <h6 class="form-section-title">Personal Details</h6>
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
@@ -302,13 +312,18 @@
                                     <input type="file" class="form-control @error('resume') is-invalid @enderror" name="resume" accept=".pdf,.jpg,.jpeg,.png,.webp" required>
                                     @error('resume')<span class="invalid-feedback">{{ $message }}</span>@enderror
                                 </div>
-                                @if($event->type === 'International')
-                                <div class="form-group">
-                                    <label>Passport Number <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control @error('passport_number') is-invalid @enderror" name="passport_number" value="{{ old('passport_number') }}" placeholder="Enter passport number" required>
-                                    @error('passport_number')<span class="invalid-feedback">{{ $message }}</span>@enderror
+                                <div id="passportFields" class="passport-fields" style="display: none;">
+                                    <div class="form-group">
+                                        <label>Passport Number <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control @error('passport_number') is-invalid @enderror" name="passport_number" id="passport_number" value="{{ old('passport_number') }}" placeholder="Enter passport number">
+                                        @error('passport_number')<span class="invalid-feedback">{{ $message }}</span>@enderror
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Passport Image <span class="text-danger">*</span> <small class="text-muted">(Image - Max 5MB)</small></label>
+                                        <input type="file" class="form-control @error('passport_image') is-invalid @enderror" name="passport_image" id="passport_image" accept=".jpg,.jpeg,.png,.webp">
+                                        @error('passport_image')<span class="invalid-feedback">{{ $message }}</span>@enderror
+                                    </div>
                                 </div>
-                                @endif
                             </section>
 
                             <div class="form-actions">
@@ -340,6 +355,26 @@
 <script src="{{ asset('assets/js/contact-form-script.min.js') }}"></script>
 <!-- SweetAlert2 JS -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var processSelect = document.getElementById('process');
+        var passportFields = document.getElementById('passportFields');
+        var passportNumber = document.getElementById('passport_number');
+        var passportImage = document.getElementById('passport_image');
+
+        function togglePassportFields() {
+            var isInternational = processSelect && processSelect.value === 'International';
+            if (passportFields) passportFields.style.display = isInternational ? 'block' : 'none';
+            if (passportNumber) passportNumber.required = isInternational;
+            if (passportImage) passportImage.required = isInternational;
+        }
+
+        if (processSelect) {
+            processSelect.addEventListener('change', togglePassportFields);
+            togglePassportFields();
+        }
+    });
+</script>
 @if(session('registration_success'))
 <script>
     document.addEventListener('DOMContentLoaded', function() {

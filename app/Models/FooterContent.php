@@ -7,6 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class FooterContent extends Model
 {
     protected $fillable = [
-        'address', 'phone', 'email', 'instagram', 'facebook', 'x', 'pinterest'
+        'address',
+        'phone',
+        'email',
+        'google_map_embed_url',
+        'instagram',
+        'facebook',
+        'x',
+        'pinterest',
     ];
 }

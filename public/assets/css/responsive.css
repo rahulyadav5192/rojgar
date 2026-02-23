@@ -56,6 +56,10 @@
     #sponsors .spnsors-logo img {
         width: 80%;
     }
+
+    .blog-item .blog-image {
+        height: 220px;
+    }
 }
 
 /* only small tablets */
@@ -226,6 +230,10 @@
         width: 9rem;
         min-width: 5rem;
         padding: 18px 20px;
+    }
+
+    .blog-item .blog-image {
+        height: 200px;
     }
 }
 

@@ -15,9 +15,14 @@
 
                 <div class="content-wrapper">
                     <div class="container-xxl flex-grow-1 container-p-y">
+                        @if(session('admin_notice'))
+                            <div class="alert alert-success alert-dismissible" role="alert">
+                                {{ session('admin_notice') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        @endif
                         @yield('content')
                     </div>
-                    @include('admin.partials.footer')
                     <div class="content-backdrop fade"></div>
                 </div>
             </div>

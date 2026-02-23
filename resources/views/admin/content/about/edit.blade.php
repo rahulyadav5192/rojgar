@@ -27,7 +27,7 @@
           </div>
         @endif
 
-        <form action="{{ route('admin.content.about.update') }}" method="POST">
+        <form action="{{ route('admin.content.about.update') }}" method="POST" enctype="multipart/form-data">
           @csrf
           @method('PUT')
           <div class="mb-4">
@@ -39,6 +39,17 @@
             <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description" rows="12">{{ old('description', $about->description) }}</textarea>
             <small class="text-body-secondary">Rich text supported. This content is shown in the About section on the home page.</small>
           </div>
+          <div class="mb-4">
+            <label class="form-label" for="image">About Section Image <span class="text-muted">(optional)</span></label>
+            <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image" accept="image/jpeg,image/png,image/jpg,image/gif,image/webp" />
+            <small class="text-body-secondary">Image shown in the About The Conference section. Max size: 5 MB.</small>
+          </div>
+          @if($about->image ?? null)
+            <div class="mb-4">
+              <label class="form-label d-block">Current Image</label>
+              <img src="{{ \Illuminate\Support\Str::startsWith($about->image, ['uploads/', 'assets/']) ? asset($about->image) : asset('storage/'.$about->image) }}" alt="About section" class="rounded" style="max-width:100%;height:auto;max-height:280px;object-fit:cover;" />
+            </div>
+          @endif
           <div class="d-flex justify-content-end">
             <button type="submit" class="btn btn-primary">Update About</button>
           </div>

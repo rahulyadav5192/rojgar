@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
     <title>{{ $blog->title ?? 'Blog Details' }}</title>
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -28,7 +29,7 @@
         }
 
         .header-inner-spacer {
-            height: 84px;
+            height: 96px;
         }
 
         .blog-page {
@@ -43,7 +44,7 @@
         .blog-breadcrumb {
             background: transparent;
             padding: 0;
-            margin: 0 0 16px;
+            margin: 12px 0 16px;
             font-size: 0.9rem;
         }
 
