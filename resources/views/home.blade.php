@@ -94,6 +94,68 @@
     </section>
     <!-- About Section End -->
 
+    @if(!empty($testimonials) && count($testimonials) > 0)
+    <!-- What People Say Section Start -->
+    <section id="testimonials" class="section-padding" style="background: #f8f9fa;">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="section-title-header text-center">
+                        <h2 class="section-title wow fadeInUp" data-wow-delay="0.2s">What People Say</h2>
+                        <p class="wow fadeInDown" data-wow-delay="0.2s">Hear from participants and partners about their experience with Rozgaar Mahakumbh.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div id="testimonialsCarousel" class="carousel slide testimonials-carousel" data-ride="carousel" data-interval="6000">
+                        <div class="carousel-inner">
+                            @foreach($testimonials as $index => $testimonial)
+                            <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                                <div class="testimonial-card text-center">
+                                    <div class="testimonial-card__quote">
+                                        <span class="testimonial-card__quote-mark">"</span>
+                                        <p class="testimonial-card__desc">{{ $testimonial->description }}</p>
+                                    </div>
+                                    <div class="testimonial-card__author">
+                                        @php
+                                            $testimonialImg = $testimonial->image
+                                                ? (\Illuminate\Support\Str::startsWith($testimonial->image, ['uploads/', 'assets/']) ? asset($testimonial->image) : asset('storage/'.$testimonial->image))
+                                                : asset('assets/img/team/team-01.jpg');
+                                        @endphp
+                                        <img src="{{ $testimonialImg }}" alt="{{ $testimonial->name }}" class="testimonial-card__img">
+                                        <h4 class="testimonial-card__name">{{ $testimonial->name }}</h4>
+                                        @if($testimonial->designation)
+                                            <span class="testimonial-card__designation">{{ $testimonial->designation }}</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                        @if(count($testimonials) > 1)
+                        <a class="carousel-control-prev" href="#testimonialsCarousel" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#testimonialsCarousel" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                        <ol class="carousel-indicators">
+                            @foreach($testimonials as $i => $t)
+                            <li data-target="#testimonialsCarousel" data-slide-to="{{ $i }}" class="{{ $i === 0 ? 'active' : '' }}"></li>
+                            @endforeach
+                        </ol>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- What People Say Section End -->
+    @endif
+
     <!-- Event Image Section -->
     <div class="ready-to-play">
         <img src="{{ $conferenceContent && $conferenceContent->image ? (\Illuminate\Support\Str::startsWith($conferenceContent->image, ['uploads/', 'assets/']) ? asset($conferenceContent->image) : asset('storage/'.$conferenceContent->image)) : asset('event.jpg') }}" alt="Event" class="ready-to-play__img">
@@ -234,6 +296,7 @@
     </section>
     <!-- Counter Area End-->
 
+    @if(!empty($upcomingEvents) && ($upcomingEvents->count() ?? 0) > 0)
     <!-- Upcoming Events Section Start -->
     <section id="schedules" class="section-padding" style="background: #f8f9fa;">
         <div class="container">
@@ -246,7 +309,7 @@
                 </div>
             </div>
             <div class="row">
-                @forelse($upcomingEvents ?? [] as $index => $event)
+                @foreach($upcomingEvents as $index => $event)
                     <div class="col-lg-4 col-md-6 col-12 mb-4">
                         <div class="event-card wow fadeInUp" data-wow-delay="{{ 0.2 + $index * 0.1 }}s">
                             <div class="event-card__img">
@@ -264,19 +327,15 @@
                                 <a href="{{ route('event.register', ['event' => $event->id]) }}" class="btn btn-common">Register Now</a>
                             </div>
                         </div>
-                        <!-- Registration Modal for this event -->
-                        <!-- Modal removed: registration now handled on a separate page -->
                     </div>
-                @empty
-                    <div class="col-12 text-center py-5">
-                        <p class="text-muted">No upcoming events at the moment. Check back later.</p>
-                    </div>
-                @endforelse
+                @endforeach
             </div>
         </div>
     </section>
     <!-- Upcoming Events Section End -->
+    @endif
 
+    @if(!empty($speakers) && count($speakers) > 0)
     <!-- Team Section Start -->
     <section id="team" class="section-padding text-center">
         <div class="container">
@@ -289,7 +348,7 @@
                 </div>
             </div>
             <div class="row justify-content-bt">
-                @foreach($speakers ?? [] as $index => $speaker)
+                @foreach($speakers as $index => $speaker)
                 <div class="col-lg-3 col-md-6 col-xs-12">
                     <div class="team-item wow fadeInUp" data-wow-delay="{{ 0.2 + $index * 0.2 }}s">
                         <div class="team-img">
@@ -313,11 +372,12 @@
                 </div>
                 @endforeach
             </div>
-            <!-- <a href="#" class="btn btn-common mt-30 wow fadeInUp" data-wow-delay="1.9s">Meet all speakers</a> -->
         </div>
     </section>
     <!-- Team Section End -->
+    @endif
 
+    @if(!empty($galleryImages) && ($galleryImages->count() ?? 0) > 0)
     <!-- Gallary Section Start -->
     <section id="gallery" class="section-padding">
         <div class="container-fluid">
@@ -330,7 +390,7 @@
                 </div>
             </div>
             <div class="row">
-                @forelse($galleryImages ?? [] as $image)
+                @foreach($galleryImages as $image)
                     <div class="col-md-6 col-sm-6 col-lg-3">
                         <div class="gallery-box">
                             <div class="img-thumb">
@@ -343,20 +403,16 @@
                             </div>
                         </div>
                     </div>
-                @empty
-                    <div class="col-12 text-center py-4 text-muted">
-                        <p>No gallery images yet. Check back later.</p>
-                    </div>
-                @endforelse
+                @endforeach
             </div>
             <div class="row justify-content-center mt-3">
                 <div class="col-xs-12">
-                    <!-- <a href="{{ route('gallery') }}" class="btn btn-common">Browse All</a> -->
                 </div>
             </div>
         </div>
     </section>
     <!-- Gallary Section End -->
+    @endif
 
     <!-- Event Slides Section Start -->
     {{-- <section id="event-up" class="section-padding">
@@ -424,6 +480,7 @@
     </section> --}}
     <!-- Event Slides Section End -->
 
+    @if(!empty($latestBlogs) && count($latestBlogs) > 0)
     <!-- Blog Section Start -->
     <section id="blog" class="section-padding">
         <div class="container">
@@ -436,7 +493,7 @@
                 </div>
             </div>
             <div class="row">
-                @forelse($latestBlogs ?? [] as $blog)
+                @foreach($latestBlogs as $blog)
                 <div class="col-lg-4 col-md-6 col-xs-12">
                     <div class="blog-item">
                         <div class="blog-image">
@@ -459,19 +516,16 @@
                         </div>
                     </div>
                 </div>
-                @empty
-                <div class="col-12 text-center py-4 text-muted">
-                    <p>No blog posts yet. Check back later.</p>
-                </div>
-                @endforelse
+                @endforeach
                 <div class="col-12 text-center">
-                    <!-- <a href="#" class="btn btn-common">View all Blog</a> -->
                 </div>
             </div>
         </div>
     </section>
     <!-- Blog Section End -->
+    @endif
 
+    @if(!empty($sponsors) && count($sponsors) > 0)
     <!-- Sponsors Section Start -->
     <section id="sponsors" class="section-padding">
         <div class="overlay"></div>
@@ -487,20 +541,16 @@
             <div class="row mb-30 text-center wow fadeInDown" data-wow-delay="0.3s">
                 <div class="col-lg-12">
                     <div class="sponsors-logo text-center">
-                        @forelse($sponsors ?? [] as $sponsor)
+                        @foreach($sponsors as $sponsor)
                             <a href="{{ $sponsor->link ?: '#' }}" target="_blank"><img src="{{ \Illuminate\Support\Str::startsWith($sponsor->image, ['uploads/', 'assets/']) ? asset($sponsor->image) : asset('storage/'.$sponsor->image) }}" alt="Sponsor" class="sponsor-logo-img" /></a>
-                        @empty
-                            <a href=""><img src="{{ asset("assets/img/sponsors/logo-1.png") }}" alt="" class="sponsor-logo-img"></a>
-                            <a href=""><img src="{{ asset("assets/img/sponsors/logo-2.png") }}" alt="" class="sponsor-logo-img"></a>
-                            <a href=""><img src="{{ asset("assets/img/sponsors/logo-3.png") }}" alt="" class="sponsor-logo-img"></a>
-                        @endforelse
+                        @endforeach
                     </div>
-                    <!-- sponsors logo end-->
                 </div>
             </div>
         </div>
     </section>
     <!-- Sponsors Section End -->
+    @endif
 
     <!-- Contact Us Section -->
     <section id="contact-map" class="section-padding">

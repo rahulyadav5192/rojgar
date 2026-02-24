@@ -11,6 +11,7 @@ use App\Models\GalleryImage;
 use App\Models\Blog;
 use App\Models\Speaker;
 use App\Models\Sponsor;
+use App\Models\Testimonial;
 use App\Models\FooterContent;
 use App\Models\WhySection;
 use Illuminate\Support\Facades\Cache;
@@ -62,6 +63,7 @@ class HomeController extends Controller
                 'counterContent' => CounterContent::query()->select(['id', 'speakers_count', 'seats_count', 'sponsors_count', 'sessions_count'])->first(),
                 'speakers' => Speaker::query()->select(['id', 'name', 'designation', 'image', 'sort_order'])->orderBy('sort_order')->orderBy('id')->get(),
                 'sponsors' => Sponsor::query()->select(['id', 'image', 'link'])->orderBy('id')->get(),
+                'testimonials' => Testimonial::query()->select(['id', 'name', 'designation', 'image', 'description', 'sort_order'])->orderBy('sort_order')->orderBy('id')->get(),
                 'footer' => FooterContent::query()->select(['id', 'address', 'phone', 'email', 'google_map_embed_url', 'instagram', 'facebook', 'x', 'pinterest'])->first(),
             ];
         });

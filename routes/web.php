@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\BlogController as AdminBlogController;
 use App\Http\Controllers\Admin\SpeakerController;
 use App\Http\Controllers\Admin\FooterContentController;
 use App\Http\Controllers\Admin\SponsorController;
+use App\Http\Controllers\Admin\TestimonialController;
 use App\Http\Controllers\Admin\WhySectionController;
 use App\Http\Controllers\Admin\EventRegistrationController as AdminEventRegistrationController;
 use App\Http\Controllers\Admin\ContactSubmissionController as AdminContactSubmissionController;
@@ -72,6 +73,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::put('footer', [FooterContentController::class, 'update'])->name('footer.update');
             Route::resource('speakers', SpeakerController::class)->except('show');
             Route::resource('sponsors', SponsorController::class)->except('show');
+            Route::resource('testimonials', TestimonialController::class)->except('show');
         });
     });
 });

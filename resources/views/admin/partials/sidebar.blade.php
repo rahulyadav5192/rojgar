@@ -89,6 +89,11 @@
             <div class="text-truncate" data-i18n="Sponsors">Sponsors</div>
           </a>
         </li>
+        <li class="menu-item {{ request()->routeIs('admin.content.testimonials.*') ? 'active' : '' }}">
+          <a href="{{ route('admin.content.testimonials.index') }}" class="menu-link">
+            <div class="text-truncate" data-i18n="Testimonial">Testimonial</div>
+          </a>
+        </li>
       </ul>
     </li>
     <li class="menu-item {{ (request()->routeIs('admin.contacts.*') || request()->routeIs('admin.subscribers.*')) ? 'active open' : '' }}">
